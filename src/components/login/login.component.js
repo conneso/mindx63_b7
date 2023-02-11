@@ -1,24 +1,25 @@
 import { Component } from "react";
-import AuthenticateService from "../../services/authenticate.service";
-export default class LoginComponent extends Component {
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { login } from "../../actions/users";
+
+class LoginComponent extends Component {
   constructor(props) {
     super(props);
     this.redirect = props.redirect;
     this.user = { username: "", password: "" };
-    this.service = new AuthenticateService();
   }
-  async login() {
-    var result = await this.service.login(this.user);
-    let { existed, token, message } = result.data;
-    if (existed == undefined || existed == false) {
-      alert(message);
-    } else {
-      alert("Successful");
-      sessionStorage.setItem("token", token);
-      if (this.redirect) window.location.href = `/${this.redirect}`;
-    }
+  login() {
+    const { dispatch } = this.props;
+    dispatch(login(this.user))
+      .then(() => {
+
+      })
+      .catch(() => {});
   }
   render() {
+    const { isLoggedIn, message } = this.props
+    if(isLoggedIn) return <Redirect to="/orders"></Redirect>;
     return (
       <div>
         <h1>Đây là login page</h1>
@@ -43,7 +44,16 @@ export default class LoginComponent extends Component {
             this.login();
           }}
         />
+        {message && (<h4>{message}</h4>)}
       </div>
     );
   }
 }
+
+function mapStateToProps(state) {
+  const { isLoggedIn } = state.users;
+  const { message } = state.message;
+  return { isLoggedIn, message };
+}
+
+export default connect(mapStateToProps)(LoginComponent);

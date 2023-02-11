@@ -1,16 +1,20 @@
-import BaseService from './base.service'
-import axios from 'axios';
-export default class AuthenticateService extends BaseService {
-    constructor(){
-        super({endpoint: "users"})
-    }
-    async login(user) {
-        var result = await axios({
-            method: 'POST',
-            url: `${this.api}/${this.endpoint}/login`,
-            data: user
-        })
-
-        return result;
-    }
+import BaseService from "./base.service";
+import axios from "axios";
+class AuthenticateService extends BaseService {
+  constructor() {
+    super({ endpoint: "users" });
+  }
+  login(user) {
+    let http = axios.create({
+      baseURL: `${this.api}`,
+    });
+    return http.post(`/${this.endpoint}/login`, user).then((res) => {
+      if (res.data.token) {
+        sessionStorage.setItem("token", res.data.token);
+      }
+      return res.data;
+    });
+  }
 }
+
+export default new AuthenticateService();

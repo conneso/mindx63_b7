@@ -1,6 +1,8 @@
 import { Component } from "react";
 import OrderService from "../../services/orders.service";
-export default class OrderComponent extends Component {
+import { connect } from "react-redux";
+import { Redirect } from "react-router-dom";
+class OrderComponent extends Component {
   constructor(props) {
     super(props);
     this.service = new OrderService();
@@ -20,6 +22,8 @@ export default class OrderComponent extends Component {
   }
   render() {
     const { loading, orders } = this.state;
+    const {isLoggedIn} = this.props
+    if(!isLoggedIn) return <Redirect to="/login" />;
     if (loading) {
       return <h1>Loading...</h1>;
     }
@@ -64,3 +68,10 @@ class OrderRow extends Component {
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+  const { isLoggedIn } = state.users;
+  return { isLoggedIn };
+}
+
+export default connect(mapStateToProps)(OrderComponent);
