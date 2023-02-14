@@ -19,7 +19,7 @@ class LoginComponent extends Component {
   }
   render() {
     const { isLoggedIn, message } = this.props
-    if(isLoggedIn) return <Redirect to="/orders"></Redirect>;
+    if(isLoggedIn) return <Redirect to="/profile"></Redirect>;
     return (
       <div>
         <h1>Đây là login page</h1>

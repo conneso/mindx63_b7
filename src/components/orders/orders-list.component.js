@@ -2,6 +2,7 @@ import { Component } from "react";
 import OrderService from "../../services/orders.service";
 import { connect } from "react-redux";
 import { Redirect } from "react-router-dom";
+import moment from 'moment';
 class OrderComponent extends Component {
   constructor(props) {
     super(props);
@@ -63,7 +64,7 @@ class OrderRow extends Component {
                 <td>{row.price}</td>
                 <td>{row.quantity}</td>
                 <td>{row.size}</td>
-                <td>{row.date}</td>
+                <td>{moment(row.date).format('DD/MM/YYYY')}</td>
             </tr>
         );
     }

@@ -5,7 +5,7 @@ export const login = (user) => (dispatch) => {
     if (data.existed) {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: { user: data },
+        payload: { user: data.user, myOrders: data.myOrders },
       });
       return Promise.resolve();
     } else {

@@ -11,6 +11,8 @@ import TicketListComponent from "./components/tickets/ticket-list.component";
 import { Component } from "react";
 import OrderComponent from "./components/orders/orders-list.component";
 import { connect } from "react-redux";
+import ProfileComponent from "./components/profile/profile.component";
+import HomeComponent from "./components/home.component";
 const users = [
   {
     email: "gowtham@outlook.com",
@@ -101,14 +103,23 @@ class App extends Component {
               <li key={"orders"}>
                 <Link to="/orders">Orders</Link>
               </li>
+              <li key={"profile"}>
+                <Link to="/profile">Profile</Link>
+              </li>
             </ul>
           </nav>
+          <Route
+              exact
+              path="/"
+              component={HomeComponent}
+            ></Route>
             <Route
               exact
-              path={["/", "/orders"]}
+              path="/orders"
               component={OrderComponent}
             ></Route>
             <Route exact path="/login" component={LoginComponent} />
+            <Route exact path="/profile" component={ProfileComponent}></Route>
         </Router>
       </>
     );
